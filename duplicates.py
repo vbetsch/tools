@@ -50,6 +50,7 @@ def run():
     if duplicates:
         print(f"\n--------------- {CL_BOLD}duplicates{CL_DISABLE} ---------------{CL_RESET}")
         print(show_duplicates(result))
+        print(f"{CL_RED}Found {CL_BOLD}{len(result)}{CL_DISABLE} results{CL_RESET}")
     else:
         print(f"\n{CL_GREEN}OK{CL_RESET}")
 
