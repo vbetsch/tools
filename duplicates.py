@@ -5,7 +5,7 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Get duplicates files')
 parser.add_argument('--path', help='Path (required)', required=True, default="/home", type=str)
-parser.add_argument('--dash', help='Retrieve by -', required=False, default=True)
+parser.add_argument('--dash', help='Retrieve by -', required=False, default=False)
 parser.add_argument('--files', help='Show files', required=False, default=False)
 args = parser.parse_args()
 
@@ -43,7 +43,7 @@ def run():
         print(f"--------------- {CL_BOLD}files{CL_DISABLE} ---------------{CL_RESET}")
         print(files)
 
-    duplicates = list(map(lambda x: x.split("(")[0] if "(" in x else x.split("-")[0],
+    duplicates = list(map(lambda x: x.split("(")[0] if "(" in x else x,
                           filter(lambda y: y if test_file(y) else None, files)))
     result = [(dup, duplicates.count(dup) + 1) for dup in set(duplicates)]
 
