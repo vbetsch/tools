@@ -4,7 +4,9 @@ import os
 import argparse
 
 parser = argparse.ArgumentParser(description='Get duplicates files')
-parser.add_argument('--path', type=str, help='Path (required)')
+parser.add_argument('--path', help='Path (required)', required=True, default="/home", type=str)
+parser.add_argument('--dash', help='Retrieve by -', required=False, default=True)
+parser.add_argument('--files', help='Show files', required=False, default=False)
 args = parser.parse_args()
 
 CL_BOLD = '\033[01m'
@@ -19,6 +21,14 @@ def show_duplicates(duplicates):
         print(f"{CL_RED}-> {duplicate[0]} x{duplicate[1]}{CL_RESET}")
 
 
+def test_file(file):
+    condition = "(" in file and ")" in file
+    if args.dash:
+        return condition or "-" in file
+    else:
+        return condition
+
+
 def run():
     print("""
  ____  _   _ ____  _     ___ ____    _  _____ _____ ____  
@@ -28,11 +38,13 @@ def run():
 |____/ \___/|_|   |_____|___\____/_/   \_\_| |_____|____/ 
     """)
     files = os.listdir(args.path)
-    print(f"--------------- {CL_BOLD}files{CL_DISABLE} ---------------{CL_RESET}")
-    print(files)
 
-    duplicates = list(map(lambda x: x.split("(")[0],
-                          filter(lambda y: y if y.__contains__("(") and y.__contains__(")") else None, files)))
+    if args.files:
+        print(f"--------------- {CL_BOLD}files{CL_DISABLE} ---------------{CL_RESET}")
+        print(files)
+
+    duplicates = list(map(lambda x: x.split("(")[0] if "(" in x else x.split("-")[0],
+                          filter(lambda y: y if test_file(y) else None, files)))
     result = [(dup, duplicates.count(dup) + 1) for dup in set(duplicates)]
 
     if duplicates:
