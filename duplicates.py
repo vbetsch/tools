@@ -43,7 +43,7 @@ def run():
         print(f"--------------- {CL_BOLD}files{CL_DISABLE} ---------------{CL_RESET}")
         print(files)
 
-    duplicates = list(map(lambda x: x.split("(")[0] if "(" in x else x,
+    duplicates = list(map(lambda x: x.split("(")[0] + x.split(")")[1] if "(" in x and ")" in x else x,
                           filter(lambda y: y if test_file(y) else None, files)))
     result = [(dup, duplicates.count(dup) + 1) for dup in set(duplicates)]
 
