@@ -5,7 +5,6 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Get duplicates files')
 parser.add_argument('--path', help='Path (required)', required=True, default="/home", type=str)
-parser.add_argument('--dash', help='Retrieve by -', required=False, default=False)
 parser.add_argument('--files', help='Show files', required=False, default=False)
 args = parser.parse_args()
 
@@ -18,14 +17,6 @@ CL_RESET = '\033[0m'
 def show_duplicates(duplicates):
     for duplicate in duplicates:
         print(f"{CL_RED}-> {duplicate[0]} x{duplicate[1]}{CL_RESET}")
-
-
-def test_file(file):
-    condition = "(" in file and ")" in file
-    if args.dash:
-        return condition or "-" in file
-    else:
-        return condition
 
 
 def run():
@@ -42,8 +33,15 @@ def run():
         print(f"--------------- {CL_BOLD}files{CL_RESET} ---------------{CL_RESET}")
         print(files)
 
-    duplicates = list(map(lambda x: x.split("(")[0] + x.split(")")[1] if "(" in x and ")" in x else x,
-                          filter(lambda y: y if test_file(y) else None, files)))
+    duplicates = list(map(
+        lambda x: x.split("(")[0] + x.split(")")[1]
+        if "(" in x and ")" in x else x,
+        filter(
+            lambda y: y
+            if "(" in y and ")" in y else None,
+            files)
+        )
+    )
     result = [(dup, duplicates.count(dup) + 1) for dup in set(duplicates)]
 
     if duplicates:
