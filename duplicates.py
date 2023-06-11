@@ -40,7 +40,7 @@ def run():
             lambda y: y
             if "(" in y and ")" in y else None,
             files)
-        )
+    )
     )
     result = [(dup, duplicates.count(dup) + 1) for dup in set(duplicates)]
 
@@ -52,4 +52,5 @@ def run():
         print(f"\n{CL_GREEN}OK{CL_RESET}")
 
 
-run()
+if __name__ == '__main__':
+    run()
