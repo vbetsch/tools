@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # by Victor BETSCH alias vbetsch https://github.com/vbetsch/tools
 
 import os
