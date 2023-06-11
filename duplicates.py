@@ -10,7 +10,6 @@ parser.add_argument('--files', help='Show files', required=False, default=False)
 args = parser.parse_args()
 
 CL_BOLD = '\033[01m'
-CL_DISABLE = '\033[02m'
 CL_RED = '\033[31m'
 CL_GREEN = '\033[32m'
 CL_RESET = '\033[0m'
@@ -40,7 +39,7 @@ def run():
     files = os.listdir(args.path)
 
     if args.files:
-        print(f"--------------- {CL_BOLD}files{CL_DISABLE} ---------------{CL_RESET}")
+        print(f"--------------- {CL_BOLD}files{CL_RESET} ---------------{CL_RESET}")
         print(files)
 
     duplicates = list(map(lambda x: x.split("(")[0] + x.split(")")[1] if "(" in x and ")" in x else x,
@@ -48,9 +47,9 @@ def run():
     result = [(dup, duplicates.count(dup) + 1) for dup in set(duplicates)]
 
     if duplicates:
-        print(f"\n--------------- {CL_BOLD}duplicates{CL_DISABLE} ---------------{CL_RESET}")
+        print(f"\n--------------- {CL_BOLD}duplicates{CL_RESET} ---------------{CL_RESET}")
         print(show_duplicates(result))
-        print(f"{CL_RED}Found {CL_BOLD}{len(result)}{CL_DISABLE} results{CL_RESET}")
+        print(f"{CL_RED}Found {CL_BOLD}{len(result)}{CL_RESET}{CL_RED} results{CL_RESET}")
     else:
         print(f"\n{CL_GREEN}OK{CL_RESET}")
 
